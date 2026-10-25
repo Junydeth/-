@@ -153,6 +153,7 @@ function CloseForm() {
     	document.getElementById("editButton").disabled = false;
     	document.querySelector("#addButton button").disabled = false;
 }
+	let posts = JSON.parse(localStorage.getItem("posts")) || [];
 function addPost() {
 	let writer = document.getElementById
 	("writer").value;
@@ -167,6 +168,12 @@ function addPost() {
 	if (editingPost !== null) {
 		editingPost.querySelector("summary").textContent = writer + " - " + title;
 		editingPost.querySelector("p").textContent = content;
+		posts = Array.from(document.querySelectorAll("#postList > li")).map(li => ({
+    writer: li.querySelector("summary").textContent.split(" - ")[0],
+    title: li.querySelector("summary").textContent.split(" - ")[1],
+    content: li.querySelector("p").textContent
+}));
+localStorage.setItem("posts", JSON.stringify(posts));
 		editingPost = null;
 		document.getElementById("writer").value = "";
 		document.getElementById("title").value = "";
@@ -174,6 +181,8 @@ function addPost() {
 		CloseForm();
 		return;
 	}
+	posts.push({ writer: writer, title: title, content: content });
+	localStorage.setItem("posts", JSON.stringify(posts));
 	let li = document.createElement("li");
 	li.style.cssText = "list-style-type:none; border:1px solid black; padding:8px; border-radius:8px; width:500px; margin:10px auto;";
 	document.getElementById("writer").value = "";
@@ -190,12 +199,45 @@ function addPost() {
         	<button onclick="editPost(this)">수정</button>
         	<button onclick="deletePost(this)">삭제</button>
     	</div>
-	</div>`;	
+	</div>
+	`;
 	document.getElementById("postList").appendChild(li);
 }
 function deletePost(button) {
 	button.closest("li").remove();
+	posts = Array.from(document.querySelectorAll("#postList > li")).map(li => ({
+    writer: li.querySelector("summary").textContent.split(" - ")[0],
+    title: li.querySelector("summary").textContent.split(" - ")[1],
+    content: li.querySelector("p").textContent
+	}));
+	localStorage.setItem("posts", JSON.stringify(posts));
 }
+	function displayPosts() {
+    let postList = document.getElementById("postList");
+    postList.innerHTML = "";
+
+    posts.forEach(function(post) {
+        let li = document.createElement("li");
+        li.style.cssText = "list-style-type:none; border:1px solid black; padding:8px; border-radius:8px; width:500px; margin:10px auto;";
+
+        li.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <details>
+                    <summary>${post.writer} - ${post.title}</summary>
+                    <p>${post.content}</p>
+                </details>
+                <div class="postButtons" style="display:${isEditing ? 'block' : 'none'};">
+                    <button onclick="editPost(this)">수정</button>
+                    <button onclick="deletePost(this)">삭제</button>
+                </div>
+            </div>
+        `;
+
+        postList.appendChild(li);
+    });
+}
+
+displayPosts();
 function editPost(button) {
 	let li = button.closest("li");
 	editingPost = li;
