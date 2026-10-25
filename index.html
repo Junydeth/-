@@ -15,6 +15,9 @@ justify-content:center;">
 <button id="editButton" style="position: absolute; right: 10px;
 top: 100px"
 onclick="editMode()">수정</button>
+<button id="resetButton" style="position: absolute; right: 10px;
+top: 10px"
+onclick="resetPosts()">초기화</button>
 </div>
 
 <p style="text-align: center;">글 보는 곳</p>
@@ -154,6 +157,32 @@ function CloseForm() {
     	document.querySelector("#addButton button").disabled = false;
 }
 	let posts = JSON.parse(localStorage.getItem("posts")) || [];
+
+let originalPosts = [
+    {
+        writer: "???",
+        title: "학교 생활",
+        content: "시험보기싫다 공부하기싫다 집에 가고 싶다아아~~~~"
+    },
+    {
+        writer: "???",
+        title: "야자 생활",
+        content: "야자 째고 PC방이 가고 싶당 헤헤"
+    }
+];
+
+originalPosts.forEach(function(original) {
+    let exists = posts.some(function(post) {
+        return post.writer === original.writer &&
+               post.title === original.title;
+    });
+
+    if (!exists) {
+        posts.unshift(original);
+    }
+});
+
+localStorage.setItem("posts", JSON.stringify(posts));
 function addPost() {
 	let writer = document.getElementById
 	("writer").value;
@@ -204,13 +233,33 @@ localStorage.setItem("posts", JSON.stringify(posts));
 	document.getElementById("postList").appendChild(li);
 }
 function deletePost(button) {
-	button.closest("li").remove();
-	posts = Array.from(document.querySelectorAll("#postList > li")).map(li => ({
-    writer: li.querySelector("summary").textContent.split(" - ")[0],
-    title: li.querySelector("summary").textContent.split(" - ")[1],
-    content: li.querySelector("p").textContent
-	}));
-	localStorage.setItem("posts", JSON.stringify(posts));
+    if (confirm("삭제하시겠습니까?")) {
+        let li = button.closest("li");
+        let index = Array.from(li.parentNode.children).indexOf(li);
+
+        posts.splice(index, 1);
+        localStorage.setItem("posts", JSON.stringify(posts));
+        displayPosts();
+    }
+}
+	function resetPosts() {
+    if (confirm("모든 글을 삭제하고 초기 상태로 되돌리겠습니까?")) {
+        posts = [
+            {
+                writer: "???",
+                title: "학교 생활",
+                content: "시험보기싫다 공부하기싫다 집에 가고 싶다아아~~~~"
+            },
+            {
+                writer: "???",
+                title: "야자 생활",
+                content: "야자 째고 PC방이 가고 싶당 헤헤"
+            }
+        ];
+
+        localStorage.setItem("posts", JSON.stringify(posts));
+        displayPosts();
+    }
 }
 	function displayPosts() {
     let postList = document.getElementById("postList");
