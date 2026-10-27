@@ -47,6 +47,10 @@
       #calendarDays span {
         padding: 12px 0;
       }
+      #weekdays span {
+        border: 1px solid;
+        padding: 10px 0;
+      }
     </style>
   </head>
   <body>
@@ -69,4 +73,20 @@
       </div>
       <div id="calenderDays"></div>
   </body>
+  <script>
+    const calendarDays = getElementById("calendarDays");
+
+    const year = 2026;
+    const month = 9;
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const lastDate = new Date(year, month + 1, 0).getDate();
+    
+    for (let i = 0; i < firstDay; i++) { 
+      calendarDays.innerHTML += "<span></span>"; 
+    } 
+    for (let day = 1; day <= lastDate; day++) { 
+      calendarDays.innerHTML += `<span>${day}</span>`; 
+    } 
+  </script>
 </html>
