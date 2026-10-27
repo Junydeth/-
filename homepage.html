@@ -14,9 +14,17 @@
       h1 {
         text-align: center;
       }
+      h2 {
+        text-align: center;
+      }
       p {
         text-align: center;
         font-size: 14px;
+      }
+      #weekdays {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        text-align: center;
       }
     </style>
   </head>
@@ -27,7 +35,7 @@
     <div>
       <button><-</button>
       <h2>2026년 10월</h2>
-      <div>
+      <div id="weekdays">
         <span>일</span>
         <span>월</span>
         <span>화</span>
