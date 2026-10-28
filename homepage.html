@@ -45,7 +45,7 @@
         gap: 0px;
       }
       #calendarDays span {
-        border: 1pd solid;
+        border: 1px solid;
         padding: 12px 0;
         min-height: 20px;
         box-sizing: border-box;
@@ -54,10 +54,16 @@
         border: 1px solid;
         padding: 10px 0;
       }
+      #todayDate {
+        text-align: left;
+        font-size: 14px;
+        margin: 10px 0;
+      }
     </style>
   </head>
   <body>
     <h1>학급 달력</h1>
+    <div id="todayDate"></div>
     <hr>
     <p>시험, 수행평가, 행사 일정 확인</p>
     <div id="monthNavigation">
@@ -93,7 +99,15 @@
   prevMonth.addEventListener("click", function() { currentMonth--; 
       if (currentMonth < 0) { currentMonth = 11; currentYear--; } updateCalendar(); }); 
   nextMonth.addEventListener("click", function() { currentMonth++; 
-      if (currentMonth > 11) { currentMonth = 0; currentYear++; } updateCalendar(); }); 
+      if (currentMonth > 11) { currentMonth = 0; currentYear++; } updateCalendar(); });
+  const today = new Date();
+
+const todayDate = document.getElementById("todayDate");
+
+todayDate.textContent =
+  today.getFullYear() + "년 " +
+  (today.getMonth() + 1) + "월 " +
+  today.getDate() + "일";
   updateCalendar(); 
 </script>
 </body>
