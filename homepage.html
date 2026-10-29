@@ -53,6 +53,12 @@
         vertical-align: top;
         font-size: 13px;
       }
+      .eventList {
+  margin-top: 8px;
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+      }
       #weekdays span {
         border: 1px solid;
         padding: 10px 0;
@@ -86,6 +92,11 @@
       <div id="calendarDays"></div>
 <script> let currentYear = 2026; 
   let currentMonth = 9;
+
+  const events = {
+    "2026-10-30": ["수학 수행"]
+    "2026-11-05": ["영어 시험, 과학 보고서 제출"]
+  };
   
   const calendarDays = document.getElementById("calendarDays"); 
   const monthTitle = document.getElementById("monthTitle"); 
@@ -99,7 +110,27 @@
       for (let i = 0; i < firstDay; i++) { calendarDays.innerHTML += "<span></span>"; } 
       for (let day = 1; day <= lastDate; day++) {
   const dateCell = document.createElement("span");
-  dateCell.textContent = day;
+
+const dateNumber = document.createElement("div");
+dateNumber.textContent = day;
+
+const eventList = document.createElement("div");
+eventList.className = "eventList";
+
+dateCell.appendChild(dateNumber);
+dateCell.appendChild(eventList);
+
+  const dateKey = currentYear + "-" +
+String(currentMonth + 1).padStart(2, "0") + "-" +
+String(day).padStart(2, "0");
+
+const dayEvents = events[dateKey] || [];
+
+dayEvents.forEach(function(event) {
+const eventItem = document.createElement("div");
+eventItem.textContent = event;
+eventList.appendChild(eventItem);
+});
 
   const today = new Date();
 
