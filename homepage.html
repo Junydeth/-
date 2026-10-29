@@ -63,7 +63,7 @@
   </head>
   <body>
     <h1>학급 달력</h1>
-    <div id="todayDate">오늘 날짜:</div>
+    <div id="todayDate"></div>
     <hr>
     <p>시험, 수행평가, 행사 일정 확인</p>
     <div id="monthNavigation">
@@ -104,7 +104,7 @@
 
 const todayDate = document.getElementById("todayDate");
 
-todayDate.textContent =
+todayDate.textContent ="오늘 날짜:" +
   today.getFullYear() + "년 " +
   (today.getMonth() + 1) + "월 " +
   today.getDate() + "일";
