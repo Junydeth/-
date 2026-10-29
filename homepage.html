@@ -94,8 +94,23 @@
       const firstDay = new Date(currentYear, currentMonth, 1).getDay(); 
       const lastDate = new Date(currentYear, currentMonth + 1, 0).getDate(); 
       for (let i = 0; i < firstDay; i++) { calendarDays.innerHTML += "<span></span>"; } 
-      for (let day = 1; day <= lastDate; day++) 
-      { calendarDays.innerHTML += `<span>${day}</span>`; } } 
+      for (let day = 1; day <= lastDate; day++) {
+  const dateCell = document.createElement("span");
+  dateCell.textContent = day;
+
+  const today = new Date();
+
+  if (
+    currentYear === today.getFullYear() &&
+    currentMonth === today.getMonth() &&
+    day === today.getDate()
+  ) {
+    dateCell.style.backgroundColor = "#dbeafe";
+    dateCell.style.fontWeight = "bold";
+  }
+
+  calendarDays.appendChild(dateCell);
+}
   prevMonth.addEventListener("click", function() { currentMonth--; 
       if (currentMonth < 0) { currentMonth = 11; currentYear--; } updateCalendar(); }); 
   nextMonth.addEventListener("click", function() { currentMonth++; 
@@ -104,7 +119,7 @@
 
 const todayDate = document.getElementById("todayDate");
 
-todayDate.textContent ="오늘 날짜:" +
+todayDate.textContent ="오늘 날짜: " +
   today.getFullYear() + "년 " +
   (today.getMonth() + 1) + "월 " +
   today.getDate() + "일";
