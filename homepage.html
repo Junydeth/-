@@ -63,7 +63,7 @@
   </head>
   <body>
     <h1>학급 달력</h1>
-    <div id="todayDate"></div>
+    <div id="todayDate">오늘 날짜:</div>
     <hr>
     <p>시험, 수행평가, 행사 일정 확인</p>
     <div id="monthNavigation">
@@ -88,7 +88,7 @@
   const monthTitle = document.getElementById("monthTitle"); 
   const prevMonth = document.getElementById("prevMonth"); 
   const nextMonth = document.getElementById("nextMonth"); 
-  function updateCalendar() { monthTitle.textContent ="오늘 날짜:" + currentYear + "년 " + (currentMonth + 1) + "월";
+  function updateCalendar() { monthTitle.textContent =currentYear + "년 " + (currentMonth + 1) + "월";
       calendarDays.innerHTML = "";
                              
       const firstDay = new Date(currentYear, currentMonth, 1).getDay(); 
